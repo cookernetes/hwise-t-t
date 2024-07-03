@@ -1,10 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import HoliwiseLogo from "@/components/holiwise-logo";
 
 export default function Navbar() {
   return (
-    <div className={"mb-2 flex items-center"}>
+    <div className={"mb-5 flex items-center"}>
+      <Link href={"/my-trips"}>
+        <HoliwiseLogo className={"mr-4 h-12 w-12"} />
+      </Link>
       <Link href={"/my-trips"}>My Trips</Link>
       <a
         onClick={(e) => {
