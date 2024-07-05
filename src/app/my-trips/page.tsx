@@ -92,7 +92,7 @@ export default function MyTripsPage() {
           <NewTripButton className={"ml-auto"} onNewTrip={handleNewTrip} />
         </div>
 
-        <div className={"grid grid-cols-3 gap-4"}>
+        <div className={"grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3"}>
           {trips.map((t) => (
             <TripCard
               tripData={t}
@@ -110,11 +110,12 @@ export default function MyTripsPage() {
             My Saved Destinations
           </h3>
           <p className="text-sm text-muted-foreground">
-            (to add a destination to a trip, simply drag and drop!)
+            To add a destination to a trip, simply drag and drop it on desktop -
+            or tap+hold then drop on mobile!
           </p>
         </div>
 
-        <div className={"grid grid-cols-3 gap-4"}>
+        <div className={"grid grid-cols-2 gap-4 sm:grid-cols-3"}>
           {savedDestinations.map((d) => (
             <DestinationCard destinationData={d} key={d.id} />
           ))}

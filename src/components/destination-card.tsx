@@ -1,6 +1,7 @@
 import type { Destination } from "@/lib/mock-saved-location-data";
 import { CircleArrowUp, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useRef } from "react";
 
 // Functions as a draggable card for destinations as well as a card to show trip destinations with a richer feature-set
 export default function DestinationCard({
@@ -12,8 +13,17 @@ export default function DestinationCard({
   handleUpvote?: (destId: number) => void;
   handleRemoveDestination?: (destId: number) => void;
 }) {
+  const cardRef = useRef<HTMLDivElement | null>(null);
+
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
+    if (cardRef && cardRef.current) {
+      cardRef.current!.style.opacity = "0.5";
+    }
     e.dataTransfer.setData("text/plain", JSON.stringify(destinationData));
+  };
+
+  const handleDragEnd = () => {
+    cardRef.current!.style.opacity = "1";
   };
 
   const { imageUrl, name, id, upvotes } = destinationData;
@@ -22,8 +32,14 @@ export default function DestinationCard({
   return (
     <div
       className={"rounded-lg border bg-card text-card-foreground shadow-sm"}
-      draggable={upvotes === undefined}
-      onDragStart={handleDragStart}
+      ref={cardRef}
+      {...(upvotes === undefined
+        ? {
+            draggable: true,
+            onDragStart: handleDragStart,
+            onDragEnd: handleDragEnd,
+          }
+        : {})}
     >
       <div
         className={"flex h-48 items-start rounded-t-lg"}
@@ -34,7 +50,11 @@ export default function DestinationCard({
 
       <div>
         <div className={"flex flex-col space-y-3.5 p-6"}>
-          <h3 className={"text-2xl font-semibold leading-none tracking-tight"}>
+          <h3
+            className={
+              "text-lg font-semibold leading-none tracking-tight sm:text-xl"
+            }
+          >
             {name}
           </h3>
 

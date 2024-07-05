@@ -4,14 +4,12 @@ import TH1 from "@/components/typography-h1";
 import { useLocalStorage } from "@mantine/hooks";
 import {
   Destination,
-  mockSavedDestinations,
   starterTripMockedData,
   Trip,
 } from "@/lib/mock-saved-location-data";
 import React from "react";
 import DestinationCard from "@/components/destination-card";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 export default function DynamicTripPage({
   params: { tripId },
@@ -26,8 +24,6 @@ export default function DynamicTripPage({
   const tripData = trips.find((t) => t.id === Number(tripId))!;
 
   const handleUpvote = (destId: number) => {
-    console.log(trips);
-
     const updatedTripDestinationsData: Destination[] =
       tripData.tripDestinations.map((td) =>
         td.id === destId ? { ...td, upvotes: td.upvotes! == 0 ? 1 : 0 } : td,
@@ -63,7 +59,7 @@ export default function DynamicTripPage({
       <TH1 className={"mb-3"}>Your Trip - {tripData?.tripName}</TH1>
 
       {tripData && tripData.tripDestinations.length > 0 ? (
-        <div className={"grid grid-cols-3 gap-4"}>
+        <div className={"grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3"}>
           {tripData?.tripDestinations
             .sort((a, b) => b.upvotes! - a.upvotes!)
             .map((d) => (
